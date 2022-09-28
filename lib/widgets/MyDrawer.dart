@@ -97,12 +97,49 @@ class _MyDrawerState extends State<MyDrawer> {
             ),
           ),
           ListTile(
-            onTap: () async {
-              await FireDB().getAllStoredNotes();
-              if (!mounted) return;
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: ((context) => const Home())));
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: ((context) {
+                    return AlertDialog(
+                      backgroundColor: bgColor,
+                      title: const Text(
+                        "Are You sure to BackUp Your Notes ?",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () async {
+                              await FireDB().getAllStoredNotes();
+                              if (!mounted) return;
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: ((context) => const Home())));
+                            },
+                            child: const Text(
+                              "Confirm",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
+                            )),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              "Cancel",
+                              style: TextStyle(color: Colors.red, fontSize: 18),
+                            ))
+                      ],
+                    );
+                  }));
             },
+            // onTap: () async {
+            //   await FireDB().getAllStoredNotes();
+            //   if (!mounted) return;
+            //   Navigator.pushReplacement(context,
+            //       MaterialPageRoute(builder: ((context) => const Home())));
+            // },
             leading: Icon(
               Icons.backup_outlined,
               color: Colors.white.withOpacity(0.7),
