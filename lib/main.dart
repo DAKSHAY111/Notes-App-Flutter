@@ -19,30 +19,6 @@ Future<void> main() async {
   runApp(MyApp());
 }
 
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//         debugShowCheckedModeBanner: false,
-//         title: 'Flutter Demo',
-//         theme: ThemeData(
-//           textTheme: GoogleFonts.rubikTextTheme(Theme.of(context).textTheme),
-//           primarySwatch: Colors.blue,
-//         ),
-//         initialRoute: "/",
-//         routes: {
-//           "/": ((context) => Login()),
-//           // "/editNoteView": ((context) => const EditNoteView()),
-//           // "/noteView": ((context) => NoteView(note:,)),
-//           "/createNoteView": ((context) => CreateNoteView()),
-//           // "editView": ((context) => const EditNoteView())
-//         });
-//   }
-// }
-
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();

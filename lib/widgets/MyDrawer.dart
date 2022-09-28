@@ -1,28 +1,63 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notes_app/services/login_info.dart';
 import 'package:notes_app/utils/colors.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class MyDrawer extends StatelessWidget {
+class MyDrawer extends StatefulWidget {
   const MyDrawer({super.key});
 
   @override
+  State<MyDrawer> createState() => _MyDrawerState();
+}
+
+class _MyDrawerState extends State<MyDrawer> {
+  String? username, userEmail, userImg;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    LocalDataSaver.getName().then((value) {
+      if (mounted) {
+        print("loaded + $value");
+        setState(() {
+          username = value;
+        });
+      }
+    });
+    LocalDataSaver.getEmail().then((value) {
+      if (mounted) {
+        print("loaded + $value");
+        setState(() {
+          userEmail = value;
+        });
+      }
+    });
+    LocalDataSaver.getImg().then((value) {
+      if (mounted) {
+        print("loaded + $value");
+        setState(() {
+          userImg = value;
+        });
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    const imgUrl =
-        "https://media-exp2.licdn.com/dms/image/C4E03AQEfkiLK-o9knw/profile-displayphoto-shrink_200_200/0/1616073626281?e=2147483647&v=beta&t=DYZizwN3OiL1VVJaNMcPp-pUu6q6aO2b87OpRxpSojY";
     return Drawer(
       backgroundColor: bgColor,
       child: ListView(
         children: [
-          const DrawerHeader(
+          DrawerHeader(
               curve: Curves.bounceOut,
               padding: EdgeInsets.zero,
               child: UserAccountsDrawerHeader(
-                // decoration: Decoration(),
-                accountName: Text("Dakshay"),
-                accountEmail: Text("dakshaysolanki@gmail.com"),
+                accountName: Text(username ?? "User Name"),
+                accountEmail: Text(userEmail ?? "User Email"),
                 currentAccountPicture: CircleAvatar(
-                  backgroundImage: NetworkImage(imgUrl),
+                  backgroundImage: NetworkImage(userImg ?? ""),
                 ),
               )),
           ListTile(

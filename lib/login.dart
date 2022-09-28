@@ -31,9 +31,7 @@ class _LoginState extends State<Login> {
               LocalDataSaver.saveMail(currentUser.email.toString());
               LocalDataSaver.saveName(currentUser.displayName.toString());
               LocalDataSaver.setSync(true);
-              await FireDB().getAllStoredNotes();
-
-              // ignore: use_build_context_synchronously
+              
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: ((context) => const Home())));
             })

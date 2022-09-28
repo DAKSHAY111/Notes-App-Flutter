@@ -64,6 +64,14 @@ class NotesDatabse {
     return queryResult.map((json) => Note.fromJson(json)).toList();
   }
 
+  Future<List<Note>> readAllPinNotes() async {
+    final db = await instance.database;
+    const orderBy = '${NoteFields.createdTime} DESC';
+    final queryResult = await db!.query(NoteFields.tableName,
+        orderBy: orderBy, where: '${NoteFields.pin} = 1');
+    return queryResult.map((json) => Note.fromJson(json)).toList();
+  }
+
   Future<Note?> readOneNote(int id) async {
     final db = await instance.database;
     final map = await db!.query(NoteFields.tableName,

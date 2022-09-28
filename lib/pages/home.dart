@@ -25,6 +25,7 @@ class _HomeState extends State<Home> {
   bool isGrid = true;
   String? googleProfileimg;
   List<Note>? notesList = [];
+  List<Note>? pinnotes = [];
   var uuid = const Uuid();
   @override
   void initState() {
@@ -39,6 +40,7 @@ class _HomeState extends State<Home> {
       }
     });
     getAllNotes();
+    // getAllPinNotes();
   }
 
   Future MyQuery(int id) async {
@@ -51,7 +53,16 @@ class _HomeState extends State<Home> {
 
   Future getAllNotes() async {
     notesList = await NotesDatabse.instance.readAllNotes();
+    print(notesList);
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
 
+  Future getAllPinNotes() async {
+    notesList = await NotesDatabse.instance.readAllPinNotes();
     if (mounted) {
       setState(() {
         isLoading = false;
@@ -61,7 +72,7 @@ class _HomeState extends State<Home> {
 
   Widget gridViewnotes() {
     return MasonryGridView.count(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       crossAxisCount: 2,
       scrollDirection: Axis.vertical,
       mainAxisSpacing: 6,
@@ -120,7 +131,6 @@ class _HomeState extends State<Home> {
           backgroundColor: black,
           title: const Text("EASY NOTES"),
           actions: [
-            // IconButton(onPressed: () {}, icon: const Icon(Icons.grid_view)),
             TextButton(
                 onPressed: () {
                   setState(() {
@@ -142,7 +152,7 @@ class _HomeState extends State<Home> {
                     onBackgroundImageError: (Object, StackTrace) {
                       print("Ok + $StackTrace");
                     },
-                    radius: 16,
+                    maxRadius: 20,
                     backgroundImage:
                         NetworkImage(googleProfileimg.toString()))),
           ],
@@ -164,7 +174,7 @@ class _HomeState extends State<Home> {
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
-                              gridViewnotes()
+                              gridViewnotes(),
                             ])
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -216,7 +226,7 @@ class _HomeState extends State<Home> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                            builder: ((context) =>const ArchiveNoteView())));
+                            builder: ((context) => const ArchiveNoteView())));
                   },
                   icon: const Icon(
                     Icons.archive_outlined,
