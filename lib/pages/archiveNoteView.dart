@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:notes_app/login.dart';
-import 'package:notes_app/pages/createnoteview.dart';
+import 'package:notes_app/pages/home.dart';
 import 'package:notes_app/pages/noteview.dart';
 import 'package:notes_app/services/auth.dart';
 import 'package:notes_app/services/db.dart';
 import 'package:notes_app/widgets/MyDrawer.dart';
 import 'package:notes_app/services/login_info.dart';
 import 'package:uuid/uuid.dart';
-import 'package:notes_app/pages/archiveNoteView.dart';
 
 import '../models/myNoteModel.dart';
 import '../utils/colors.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class ArchiveNoteView extends StatefulWidget {
+  const ArchiveNoteView({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<ArchiveNoteView> createState() => _ArchiveNoteViewState();
 }
 
-class _HomeState extends State<Home> {
+class _ArchiveNoteViewState extends State<ArchiveNoteView> {
   bool isLoading = true;
   bool isGrid = true;
   String? googleProfileimg;
@@ -38,19 +37,11 @@ class _HomeState extends State<Home> {
         });
       }
     });
-    getAllNotes();
+    getAllArchiveNotes();
   }
 
-  Future MyQuery(int id) async {
-    await NotesDatabse.instance.executeMyQuery(id);
-  }
-
-  Future createEntry(Note note) async {
-    await NotesDatabse.instance.InsertEntry(note);
-  }
-
-  Future getAllNotes() async {
-    notesList = await NotesDatabse.instance.readAllNotes();
+  Future getAllArchiveNotes() async {
+    notesList = await NotesDatabse.instance.readAllArchiveNotes();
 
     if (mounted) {
       setState(() {
@@ -61,7 +52,7 @@ class _HomeState extends State<Home> {
 
   Widget gridViewnotes() {
     return MasonryGridView.count(
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       crossAxisCount: 2,
       scrollDirection: Axis.vertical,
       mainAxisSpacing: 6,
@@ -114,13 +105,17 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        drawer: const MyDrawer(),
-        drawerEnableOpenDragGesture: true,
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: (() {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: ((context) => const Home())));
+            }),
+            icon: const Icon(Icons.arrow_back_ios_new_rounded),
+          ),
           backgroundColor: black,
           title: const Text("EASY NOTES"),
           actions: [
-            // IconButton(onPressed: () {}, icon: const Icon(Icons.grid_view)),
             TextButton(
                 onPressed: () {
                   setState(() {
@@ -157,7 +152,7 @@ class _HomeState extends State<Home> {
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Text(
-                                  "ALL",
+                                  "Archive Notes ",
                                   style: TextStyle(
                                       color: white.withOpacity(0.5),
                                       fontSize: 13,
@@ -213,13 +208,13 @@ class _HomeState extends State<Home> {
                   tooltip: "View Archived Notes",
                   iconSize: 30,
                   onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) =>const ArchiveNoteView())));
+                    // Navigator.pushReplacement(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: ((context) => ArchiveNoteView())));
                   },
                   icon: const Icon(
-                    Icons.archive_outlined,
+                    Icons.archive,
                     color: Colors.white,
                   )),
               IconButton(
@@ -249,19 +244,6 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: ((context) => CreateNoteView())));
-          },
-          backgroundColor: Colors.blue.shade300,
-          // splashColor: Colors.gr,
-          child: const Icon(
-            Icons.add,
-            color: Colors.black,
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
   }

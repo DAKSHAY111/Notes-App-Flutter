@@ -51,7 +51,16 @@ class NotesDatabse {
   Future<List<Note>> readAllNotes() async {
     final db = await instance.database;
     const orderBy = '${NoteFields.createdTime} DESC';
-    final queryResult = await db!.query(NoteFields.tableName, orderBy: orderBy);
+    final queryResult = await db!.query(NoteFields.tableName,
+        orderBy: orderBy, where: '${NoteFields.isArchive} = 0');
+    return queryResult.map((json) => Note.fromJson(json)).toList();
+  }
+
+  Future<List<Note>> readAllArchiveNotes() async {
+    final db = await instance.database;
+    const orderBy = '${NoteFields.createdTime} DESC';
+    final queryResult = await db!.query(NoteFields.tableName,
+        orderBy: orderBy, where: '${NoteFields.isArchive} = 1');
     return queryResult.map((json) => Note.fromJson(json)).toList();
   }
 
