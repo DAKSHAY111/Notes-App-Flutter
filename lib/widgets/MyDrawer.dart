@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:notes_app/pages/home.dart';
+import 'package:notes_app/services/firestore_db.dart';
 import 'package:notes_app/services/login_info.dart';
 import 'package:notes_app/utils/colors.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -57,7 +59,8 @@ class _MyDrawerState extends State<MyDrawer> {
                 accountName: Text(username ?? "User Name"),
                 accountEmail: Text(userEmail ?? "User Email"),
                 currentAccountPicture: CircleAvatar(
-                  backgroundImage: NetworkImage(userImg ?? ""),
+                  backgroundImage: NetworkImage(userImg ??
+                      "https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"),
                 ),
               )),
           ListTile(
@@ -89,6 +92,23 @@ class _MyDrawerState extends State<MyDrawer> {
             ),
             title: Text(
               "Settings",
+              textScaleFactor: 1.4,
+              style: TextStyle(color: white.withOpacity(0.7)),
+            ),
+          ),
+          ListTile(
+            onTap: () async {
+              await FireDB().getAllStoredNotes();
+              if (!mounted) return;
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: ((context) => const Home())));
+            },
+            leading: Icon(
+              Icons.backup_outlined,
+              color: Colors.white.withOpacity(0.7),
+            ),
+            title: Text(
+              "Backup Notes",
               textScaleFactor: 1.4,
               style: TextStyle(color: white.withOpacity(0.7)),
             ),

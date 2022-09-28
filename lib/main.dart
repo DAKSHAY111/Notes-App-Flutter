@@ -29,8 +29,10 @@ class _MyAppState extends State<MyApp> {
 
   getLoggedInState() async {
     await LocalDataSaver.getLogData().then((value) {
+      print("Is User Logged in : $value");
       setState(() {
-        isLogIn = value.toString() == "null";
+        isLogIn = value.toString() != "null";
+        print(isLogIn);
       });
     });
   }

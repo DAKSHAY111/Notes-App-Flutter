@@ -51,6 +51,15 @@ class _NoteViewState extends State<NoteView> {
               }),
           IconButton(
               onPressed: () async {
+                await NotesDatabse.instance.delteNote(widget.note);
+                if (!mounted) return;
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const Home()));
+              },
+              splashRadius: 18,
+              icon: const Icon(Icons.delete)),
+          IconButton(
+              onPressed: () async {
                 await NotesDatabse.instance.archiveNote(Note(widget.note.id,
                     pin: widget.note.pin,
                     isArchive: (widget.note.isArchive) ? false : true,

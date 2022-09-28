@@ -113,7 +113,8 @@ class NotesDatabse {
   }
 
   Future delteNote(Note note) async {
-    await FireDB().deleteNoteFirestore(note);
+    // Bcz we are not deleting note from database server
+    // await FireDB().deleteNoteFirestore(note);
 
     final db = await instance.database;
     await db!.delete(NoteFields.tableName,

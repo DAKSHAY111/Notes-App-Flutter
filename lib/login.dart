@@ -31,7 +31,7 @@ class _LoginState extends State<Login> {
               LocalDataSaver.saveMail(currentUser.email.toString());
               LocalDataSaver.saveName(currentUser.displayName.toString());
               LocalDataSaver.setSync(true);
-              
+
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: ((context) => const Home())));
             })

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:notes_app/login.dart';
@@ -5,6 +6,7 @@ import 'package:notes_app/pages/createnoteview.dart';
 import 'package:notes_app/pages/noteview.dart';
 import 'package:notes_app/services/auth.dart';
 import 'package:notes_app/services/db.dart';
+import 'package:notes_app/services/firestore_db.dart';
 import 'package:notes_app/widgets/MyDrawer.dart';
 import 'package:notes_app/services/login_info.dart';
 import 'package:uuid/uuid.dart';
@@ -23,7 +25,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   bool isLoading = true;
   bool isGrid = true;
-  String? googleProfileimg;
+  String? userImg;
   List<Note>? notesList = [];
   List<Note>? pinnotes = [];
   var uuid = const Uuid();
@@ -33,9 +35,8 @@ class _HomeState extends State<Home> {
     super.initState();
     LocalDataSaver.getImg().then((value) {
       if (mounted) {
-        print("loaded + $value");
         setState(() {
-          googleProfileimg = value;
+          userImg = value;
         });
       }
     });
@@ -53,7 +54,7 @@ class _HomeState extends State<Home> {
 
   Future getAllNotes() async {
     notesList = await NotesDatabse.instance.readAllNotes();
-    print(notesList);
+    // print(notesList);
     if (mounted) {
       setState(() {
         isLoading = false;
@@ -153,8 +154,7 @@ class _HomeState extends State<Home> {
                       print("Ok + $StackTrace");
                     },
                     maxRadius: 20,
-                    backgroundImage:
-                        NetworkImage(googleProfileimg.toString()))),
+                    backgroundImage: NetworkImage(userImg.toString()))),
           ],
         ),
         body: Container(
