@@ -144,10 +144,47 @@ class _HomeState extends State<Home> {
                 )),
             GestureDetector(
                 onTap: () {
-                  signOut();
-                  LocalDataSaver.saveLoginData(false);
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => Login()));
+                  showDialog(
+                      context: context,
+                      builder: ((context) {
+                        return AlertDialog(
+                          backgroundColor: bgColor,
+                          title: const Text(
+                            "Are You sure to logout from this account?",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          actions: [
+                            TextButton(
+                                onPressed: () async {
+                                  signOut();
+                                  await LocalDataSaver.saveLoginData(false);
+                                  if (!mounted) return;
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Login()));
+                                },
+                                child: const Text(
+                                  "Confirm",
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                )),
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: const Text(
+                                  "Cancel",
+                                  style: TextStyle(
+                                      color: Colors.red, fontSize: 18),
+                                ))
+                          ],
+                        );
+                      }));
+                  // signOut();
+                  // LocalDataSaver.saveLoginData(false);
+                  // Navigator.pushReplacement(context,
+                  //     MaterialPageRoute(builder: (context) => Login()));
                 },
                 child: CircleAvatar(
                     onBackgroundImageError: (Object, StackTrace) {
@@ -223,10 +260,7 @@ class _HomeState extends State<Home> {
                   tooltip: "View Archived Notes",
                   iconSize: 30,
                   onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: ((context) => const ArchiveNoteView())));
+                    Navigator.pushNamed(context, '/acrhiveNote');
                   },
                   icon: const Icon(
                     Icons.archive_outlined,

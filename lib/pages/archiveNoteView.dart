@@ -106,13 +106,13 @@ class _ArchiveNoteViewState extends State<ArchiveNoteView> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          leading: IconButton(
-            onPressed: (() {
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: ((context) => const Home())));
-            }),
-            icon: const Icon(Icons.arrow_back_ios_new_rounded),
-          ),
+          // leading: IconButton(
+          //   onPressed: (() {
+          //     Navigator.pushReplacement(context,
+          //         MaterialPageRoute(builder: ((context) => const Home())));
+          //   }),
+          //   icon: const Icon(Icons.arrow_back_ios_new_rounded),
+          // ),
           backgroundColor: black,
           title: const Text("EASY NOTES"),
           actions: [

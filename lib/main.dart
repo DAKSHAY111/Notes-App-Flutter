@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:notes_app/login.dart';
+import 'package:notes_app/pages/archiveNoteView.dart';
 import 'package:notes_app/pages/createnoteview.dart';
 import 'package:notes_app/pages/editpage.dart';
 import 'package:notes_app/pages/noteview.dart';
@@ -31,8 +32,8 @@ class _MyAppState extends State<MyApp> {
     await LocalDataSaver.getLogData().then((value) {
       print("Is User Logged in : $value");
       setState(() {
-        isLogIn = value.toString() != "null";
-        print(isLogIn);
+        isLogIn = value!;
+        print("is User Logged in : $isLogIn");
       });
     });
   }
@@ -51,6 +52,7 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
         themeMode: ThemeMode.dark,
+        routes: {'/acrhiveNote': ((context) => const ArchiveNoteView())},
         theme: ThemeData(
           scaffoldBackgroundColor: bgColor,
           textTheme: GoogleFonts.rubikTextTheme(Theme.of(context).textTheme),

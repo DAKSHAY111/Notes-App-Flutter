@@ -39,6 +39,7 @@ class LocalDataSaver {
 
   static Future<bool> saveLoginData(bool isUserLoggedIn) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
+    print("User is logged in : $isUserLoggedIn");
     return await preferences.setBool(logKey, isUserLoggedIn);
   }
 
@@ -49,11 +50,11 @@ class LocalDataSaver {
 
   static Future<bool?> getLogData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    return await preferences.getBool(logKey);
+    return preferences.getBool(logKey);
   }
 
   static Future<bool?> getSyncSet() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    return await preferences.getBool(syncKey);
+    return preferences.getBool(syncKey);
   }
 }
