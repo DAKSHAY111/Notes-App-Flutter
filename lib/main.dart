@@ -8,8 +8,10 @@ import 'package:notes_app/pages/noteview.dart';
 import 'package:notes_app/services/login_info.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:notes_app/themes/theme_constants.dart';
 import 'package:notes_app/utils/MyThemes.dart';
 import 'package:notes_app/utils/colors.dart';
+import 'package:notes_app/utils/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'pages/home.dart';
 
@@ -26,7 +28,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool isLogIn = false;
+  bool? isLogIn = false;
 
   getLoggedInState() async {
     await LocalDataSaver.getLogData().then((value) {
@@ -36,6 +38,10 @@ class _MyAppState extends State<MyApp> {
         print("is User Logged in : $isLogIn");
       });
     });
+
+    // SharedPreferences preferences = await SharedPreferences.getInstance();
+    // isLogIn = preferences.getBool("isLogin");
+    // print(isLogIn);
   }
 
   @override
@@ -49,15 +55,18 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        themeMode: ThemeMode.dark,
-        routes: {'/acrhiveNote': ((context) => const ArchiveNoteView())},
-        theme: ThemeData(
-          scaffoldBackgroundColor: bgColor,
-          textTheme: GoogleFonts.rubikTextTheme(Theme.of(context).textTheme),
-          primarySwatch: Colors.green,
-        ),
-        home: isLogIn ? const Home() : Login());
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      themeMode: ThemeMode.dark,
+      initialRoute: MyRoutes.homeRoute,
+      routes: {
+        MyRoutes.homeRoute: ((context) => const Home()),
+        MyRoutes.acrhiveNoteRoute: ((context) => const ArchiveNoteView()),
+        MyRoutes.createNoteRoute: ((context) => CreateNoteView()),
+      },
+      theme: lightTheme,
+      darkTheme: darkTheme,
+      // home: isLogIn! ? const Home() : Login(),
+    );
   }
 }

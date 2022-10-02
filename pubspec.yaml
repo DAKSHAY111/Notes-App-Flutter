@@ -40,6 +40,7 @@ dependencies:
   flutter_native_splash: ^2.2.10+1
   flutter_signin_button: ^2.0.0
   flutter_staggered_grid_view: ^0.6.2
+  get: ^4.6.5
   google_fonts: ^3.0.1
   google_sign_in: ^5.4.1
   intl: ^0.17.0
@@ -63,7 +64,6 @@ flutter_native_splash:
   # flutter pub run flutter_native_splash:create
   # To restore Flutter's default white splash screen, run the following command in the terminal:
   # flutter pub run flutter_native_splash:remove
-
   # color or background_image is the only required parameter.  Use color to set the background
   # of your splash screen to a solid color.  Use background_image to set the background of your
   # splash screen to a png image.  This is useful for gradients. The image will be stretch to the

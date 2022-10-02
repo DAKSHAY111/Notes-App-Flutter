@@ -24,17 +24,17 @@ class LocalDataSaver {
 
   static Future<String?> getName() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    return await preferences.getString(nameKey);
+    return preferences.getString(nameKey);
   }
 
   static Future<String?> getEmail() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    return await preferences.getString(emailKey);
+    return preferences.getString(emailKey);
   }
 
   static Future<String?> getImg() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    return await preferences.getString(imgKey);
+    return preferences.getString(imgKey);
   }
 
   static Future<bool> saveLoginData(bool isUserLoggedIn) async {
@@ -50,7 +50,9 @@ class LocalDataSaver {
 
   static Future<bool?> getLogData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getBool(logKey);
+    bool? isLogedIn = preferences.getBool(logKey);
+    print(isLogedIn);
+    return isLogedIn;
   }
 
   static Future<bool?> getSyncSet() async {

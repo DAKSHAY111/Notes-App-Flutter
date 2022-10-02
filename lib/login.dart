@@ -4,6 +4,7 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:notes_app/pages/home.dart';
 import 'package:notes_app/services/firestore_db.dart';
 import 'package:notes_app/services/login_info.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'services/auth.dart';
 
 class Login extends StatefulWidget {
@@ -25,13 +26,16 @@ class _LoginState extends State<Login> {
           children: [
             SignInButton(Buttons.Google, onPressed: () async {
               await signInWithGoogle();
-              final User? currentUser = await _auth.currentUser;
-              LocalDataSaver.saveLoginData(true);
-              LocalDataSaver.saveImg(currentUser!.photoURL.toString());
-              LocalDataSaver.saveMail(currentUser.email.toString());
-              LocalDataSaver.saveName(currentUser.displayName.toString());
-              LocalDataSaver.setSync(true);
-
+              final User? currentUser = _auth.currentUser;
+              // print(await LocalDataSaver.saveLoginData(true));
+              SharedPreferences preferences =
+                  await SharedPreferences.getInstance();
+              preferences.setBool("isLogin", true);
+              await LocalDataSaver.saveImg(currentUser!.photoURL.toString());
+              await LocalDataSaver.saveMail(currentUser.email.toString());
+              await LocalDataSaver.saveName(currentUser.displayName.toString());
+              await LocalDataSaver.setSync(true);
+              if (!mounted) return;
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: ((context) => const Home())));
             })

@@ -90,9 +90,16 @@ class _NoteViewState extends State<NoteView> {
       body: Container(
         padding: const EdgeInsets.all(20),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(
-            widget.note.title,
-            style: const TextStyle(fontSize: 25, color: white),
+          Hero(
+            transitionOnUserGestures: true,
+            tag: widget.note,
+            child: Material(
+              type: MaterialType.transparency,
+              child: Text(
+                widget.note.title,
+                style: const TextStyle(fontSize: 25, color: white),
+              ),
+            ),
           ),
           const SizedBox(
             height: 5,

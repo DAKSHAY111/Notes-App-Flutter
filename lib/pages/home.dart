@@ -1,14 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:get/get.dart';
 import 'package:notes_app/login.dart';
 import 'package:notes_app/pages/createnoteview.dart';
 import 'package:notes_app/pages/noteview.dart';
 import 'package:notes_app/services/auth.dart';
 import 'package:notes_app/services/db.dart';
 import 'package:notes_app/services/firestore_db.dart';
+import 'package:notes_app/utils/routes.dart';
 import 'package:notes_app/widgets/MyDrawer.dart';
 import 'package:notes_app/services/login_info.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 import 'package:notes_app/pages/archiveNoteView.dart';
 
@@ -24,8 +27,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   bool isLoading = true;
+  bool isLogin = false;
   bool isGrid = true;
   String? userImg;
+
   List<Note>? notesList = [];
   List<Note>? pinnotes = [];
   var uuid = const Uuid();
@@ -33,6 +38,7 @@ class _HomeState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     LocalDataSaver.getImg().then((value) {
       if (mounted) {
         setState(() {
@@ -53,6 +59,8 @@ class _HomeState extends State<Home> {
   }
 
   Future getAllNotes() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.getBool("isLogin");
     notesList = await NotesDatabse.instance.readAllNotes();
     // print(notesList);
     if (mounted) {
@@ -93,18 +101,27 @@ class _HomeState extends State<Home> {
                 child: InkWell(
                   onTap: () => {
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => NoteView(
-                                  note: notesList![index],
-                                )))
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => NoteView(
+                          note: notesList![index],
+                        ),
+                      ),
+                    )
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(notesList![index].title,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 20)),
+                      Hero(
+                        transitionOnUserGestures: true,
+                        tag: notesList![index],
+                        child: Material(
+                          type: MaterialType.transparency,
+                          child: Text(notesList![index].title,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 20)),
+                        ),
+                      ),
                       const SizedBox(
                         height: 10,
                       ),
@@ -124,13 +141,17 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    TextTheme _textTheme = Theme.of(context).textTheme;
     return SafeArea(
       child: Scaffold(
         drawer: const MyDrawer(),
         drawerEnableOpenDragGesture: true,
         appBar: AppBar(
           backgroundColor: black,
-          title: const Text("EASY NOTES"),
+          title: Text(
+            "EASY NOTES $isLogin",
+            style: _textTheme.headline6,
+          ),
           actions: [
             TextButton(
                 onPressed: () {
@@ -260,11 +281,10 @@ class _HomeState extends State<Home> {
                   tooltip: "View Archived Notes",
                   iconSize: 30,
                   onPressed: () {
-                    Navigator.pushNamed(context, '/acrhiveNote');
+                    Navigator.pushNamed(context, MyRoutes.acrhiveNoteRoute);
                   },
                   icon: const Icon(
                     Icons.archive_outlined,
-                    color: Colors.white,
                   )),
               IconButton(
                   tooltip: "Pinned Notes",
@@ -272,7 +292,6 @@ class _HomeState extends State<Home> {
                   onPressed: () {},
                   icon: const Icon(
                     Icons.push_pin_outlined,
-                    color: Colors.white,
                   )),
               IconButton(
                   tooltip: "Daily Schedule",
@@ -280,7 +299,6 @@ class _HomeState extends State<Home> {
                   onPressed: () {},
                   icon: const Icon(
                     Icons.access_alarm,
-                    color: Colors.white,
                   )),
               IconButton(
                   tooltip: "Grid View",
@@ -288,24 +306,19 @@ class _HomeState extends State<Home> {
                   onPressed: () {},
                   icon: const Icon(
                     Icons.grid_view_rounded,
-                    color: Colors.white,
                   )),
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: ((context) => CreateNoteView())));
+            Navigator.pushNamed(context, MyRoutes.createNoteRoute);
           },
-          backgroundColor: Colors.blue.shade300,
-          // splashColor: Colors.gr,
-          child: const Icon(
-            Icons.add,
-            color: Colors.black,
-          ),
+          backgroundColor: const Color((0xffcafc01)),
+          label: const Text("Add Note"),
+          icon: const Icon(Icons.add),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       ),
     );
   }
