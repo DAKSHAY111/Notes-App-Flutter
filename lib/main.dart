@@ -56,7 +56,7 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           scaffoldBackgroundColor: bgColor,
           textTheme: GoogleFonts.rubikTextTheme(Theme.of(context).textTheme),
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.green,
         ),
         home: isLogIn ? const Home() : Login());
   }
