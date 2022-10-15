@@ -35,7 +35,7 @@ class _EditNoteViewState extends State<EditNoteView> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: color,
+        backgroundColor: color.withOpacity(0.7),
         appBar: AppBar(
           backgroundColor: bgColor,
           title: const Text("Edit Note"),

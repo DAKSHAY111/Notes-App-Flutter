@@ -85,6 +85,20 @@ class NotesDatabse {
     }
   }
 
+  Future<List<int>> getNoteString(String query) async {
+    final db = await instance.database;
+    final result = await db!.query(NoteFields.tableName);
+    List<int> resultIds = [];
+    result.forEach((element) {
+      if (element["title"].toString().toLowerCase().contains(query) ||
+          element["content"].toString().toLowerCase().contains(query)) {
+        resultIds.add(element["id"] as int);
+      }
+    });
+
+    return resultIds;
+  }
+
   Future updateNote(Note note) async {
     await FireDB().updateNoteFirestore(note);
 
@@ -124,10 +138,5 @@ class NotesDatabse {
   Future closeDB() async {
     final db = await instance.database;
     db!.close();
-  }
-
-  Future executeMyQuery(int id) async {
-    final db = await instance.database;
-    print("DATA DELETED");
   }
 }

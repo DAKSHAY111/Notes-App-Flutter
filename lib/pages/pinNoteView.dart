@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:notes_app/login.dart';
-import 'package:notes_app/pages/home.dart';
-import 'package:notes_app/pages/noteview.dart';
-import 'package:notes_app/services/auth.dart';
-import 'package:notes_app/services/db.dart';
-import 'package:notes_app/widgets/MyDrawer.dart';
-import 'package:notes_app/services/login_info.dart';
 import 'package:uuid/uuid.dart';
-
+import '../login.dart';
 import '../models/myNoteModel.dart';
+import '../services/auth.dart';
+import '../services/db.dart';
+import '../services/login_info.dart';
 import '../utils/colors.dart';
+import 'noteview.dart';
 
-class ArchiveNoteView extends StatefulWidget {
-  const ArchiveNoteView({super.key});
+class PinNoteView extends StatefulWidget {
+  const PinNoteView({super.key});
 
   @override
-  State<ArchiveNoteView> createState() => _ArchiveNoteViewState();
+  State<PinNoteView> createState() => _PinNoteViewState();
 }
 
-class _ArchiveNoteViewState extends State<ArchiveNoteView> {
+class _PinNoteViewState extends State<PinNoteView> {
   bool isLoading = true;
   bool isGrid = true;
   String? googleProfileimg;
@@ -37,11 +36,11 @@ class _ArchiveNoteViewState extends State<ArchiveNoteView> {
         });
       }
     });
-    getAllArchiveNotes();
+    getAllPinNotes();
   }
 
-  Future getAllArchiveNotes() async {
-    notesList = await NotesDatabse.instance.readAllArchiveNotes();
+  Future getAllPinNotes() async {
+    notesList = await NotesDatabse.instance.readAllPinNotes();
 
     if (mounted) {
       setState(() {
@@ -115,7 +114,7 @@ class _ArchiveNoteViewState extends State<ArchiveNoteView> {
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Text(
-                                  "Archive Notes ",
+                                  "Pin Notes",
                                   style: TextStyle(
                                       color: white.withOpacity(0.5),
                                       fontSize: 13,
@@ -209,5 +208,6 @@ class _ArchiveNoteViewState extends State<ArchiveNoteView> {
         // ),
       ),
     );
+    ;
   }
 }

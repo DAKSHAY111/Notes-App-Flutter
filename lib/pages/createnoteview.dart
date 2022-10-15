@@ -5,7 +5,6 @@ import 'package:notes_app/pages/home.dart';
 import 'package:notes_app/services/db.dart';
 import 'package:uuid/uuid.dart';
 import '../utils/colors.dart';
-import '../widgets/colorPicker.dart';
 
 class CreateNoteView extends StatefulWidget {
   // const CreateNoteView({super.key});
