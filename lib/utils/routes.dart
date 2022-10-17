@@ -3,6 +3,7 @@ class MyRoutes {
   static String loginRoute = '/login';
   static String createNoteRoute = '/createNote';
   static String allNoteRoute = '/allNote';
+  static String searchNoteRoute = '/searchNote';
   static String acrhiveNoteRoute = '/acrhiveNote';
   static String pinNoteRoute = '/pinNote';
 }

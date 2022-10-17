@@ -65,28 +65,6 @@ class _MyDrawerState extends State<MyDrawer> {
               )),
           ListTile(
             leading: Icon(
-              Icons.lightbulb_outline_rounded,
-              color: Colors.white.withOpacity(0.7),
-            ),
-            title: Text(
-              "Notes",
-              textScaleFactor: 1.4,
-              style: TextStyle(color: white.withOpacity(0.7)),
-            ),
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.archive_outlined,
-              color: Colors.white.withOpacity(0.7),
-            ),
-            title: Text(
-              "Achieve",
-              textScaleFactor: 1.4,
-              style: TextStyle(color: white.withOpacity(0.7)),
-            ),
-          ),
-          ListTile(
-            leading: Icon(
               Icons.settings_outlined,
               color: Colors.white.withOpacity(0.7),
             ),

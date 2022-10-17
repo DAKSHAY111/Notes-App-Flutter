@@ -52,7 +52,8 @@ class NotesDatabse {
     final db = await instance.database;
     const orderBy = '${NoteFields.createdTime} DESC';
     final queryResult = await db!.query(NoteFields.tableName,
-        orderBy: orderBy, where: '${NoteFields.isArchive} = 0');
+        orderBy: orderBy,
+        where: '${NoteFields.isArchive} = 0 and ${NoteFields.pin}=0');
     return queryResult.map((json) => Note.fromJson(json)).toList();
   }
 

@@ -1,62 +1,82 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
 
 class LocalDataSaver {
-  static String nameKey = "NAMEKEY";
-  static String emailKey = "EMAILKEY";
-  static String imgKey = "IMGKEY";
-  static String logKey = "LOGWALIKEY";
-  static String syncKey = "SYNCKEY";
+  static String BoxName = "LoginInfo";
+  static String nameKey = "UserName";
+  static String emailKey = "UserGmail";
+  static String imgKey = "UserImg";
+  static String logKey = "isLogin";
+  static String syncKey = "isSyncOn";
 
-  static Future<bool> saveName(String username) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    return await preferences.setString(nameKey, username);
+//* -------------- To know user is logged in or not locally  ---------------*//
+
+  static Future<void> saveLoginData(bool isUserLoggedIn) async {
+    Box box = await Hive.openBox(BoxName);
+    print(
+        "----------------------- User Saved : $isUserLoggedIn ---------------");
+    box.put(logKey, isUserLoggedIn);
+    // if (box.isOpen) box.close();
   }
 
-  static Future<bool> saveMail(String useremail) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    return await preferences.setString(emailKey, useremail);
+  static Future<bool> getLogData() async {
+    Box box = await Hive.openBox(BoxName);
+    bool isLogin = box.get(logKey) != null && box.get(logKey) != false;
+    // if (box.isOpen) box.close();
+    print(isLogin);
+    return isLogin;
   }
 
-  static Future<bool> saveImg(String imgUrl) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    return await preferences.setString(imgKey, imgUrl);
+//* Store UserName Locally*//
+
+  static Future<void> saveName(String username) async {
+    Box box = await Hive.openBox(BoxName);
+    box.put(nameKey, username);
+    // if (box.isOpen) box.close();
   }
 
   static Future<String?> getName() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getString(nameKey);
+    Box box = await Hive.openBox(BoxName);
+    return box.get(nameKey);
+  }
+
+//* Store UserGmail Locally*//
+
+  static Future<void> saveMail(String useremail) async {
+    Box box = await Hive.openBox(BoxName);
+    box.put(emailKey, useremail);
+    // if (box.isOpen) box.close();
   }
 
   static Future<String?> getEmail() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getString(emailKey);
+    Box box = await Hive.openBox(BoxName);
+    return box.get(emailKey);
   }
 
-  static Future<String?> getImg() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getString(imgKey);
+//* ---------- Store UserGmail Locally ---------------- *//
+
+  static Future<void> saveImg(String imgUrl) async {
+    Box box = await Hive.openBox(BoxName);
+    box.put(imgKey, imgUrl);
+    // if (box.isOpen) box.close();
   }
 
-  static Future<bool> saveLoginData(bool isUserLoggedIn) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    print("User is logged in : $isUserLoggedIn");
-    return await preferences.setBool(logKey, isUserLoggedIn);
+  static Future<String> getImg() async {
+    Box box = await Hive.openBox(BoxName);
+    return box.get(imgKey).toString();
   }
 
-  static Future<bool> setSync(bool isSyncOn) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    return await preferences.setBool(syncKey, isSyncOn);
-  }
+//* ------------------- Sync -------------------------- *//
 
-  static Future<bool?> getLogData() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    bool? isLogedIn = preferences.getBool(logKey);
-    print(isLogedIn);
-    return isLogedIn;
+  static Future<void> setSync(bool isSyncOn) async {
+    Box box = await Hive.openBox(BoxName);
+    box.put(syncKey, isSyncOn);
+    // if (box.isOpen) box.close();
   }
 
   static Future<bool?> getSyncSet() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    return preferences.getBool(syncKey);
+    Box box = await Hive.openBox(BoxName);
+    return box.get(syncKey);
   }
 }

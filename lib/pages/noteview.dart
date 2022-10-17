@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:notes_app/pages/editpage.dart';
 import 'package:notes_app/pages/home.dart';
 import 'package:notes_app/utils/colors.dart';
-
 import '../models/myNoteModel.dart';
 import '../services/db.dart';
 
@@ -27,7 +26,7 @@ class _NoteViewState extends State<NoteView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(int.parse(widget.note.color)),
+      backgroundColor: Color(int.parse(widget.note.color)).withOpacity(0.7),
       appBar: AppBar(
         backgroundColor: bgColor,
         title: const Text("Easy Notes"),

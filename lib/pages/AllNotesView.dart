@@ -27,9 +27,7 @@ class _AllNoteViewState extends State<AllNoteView> {
   var uuid = const Uuid();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
     LocalDataSaver.getImg().then((value) {
       if (mounted) {
         setState(() {
@@ -42,8 +40,6 @@ class _AllNoteViewState extends State<AllNoteView> {
   }
 
   Future getAllNotes() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    isLogin = preferences.getBool("isLogin")!;
     notesList = await NotesDatabse.instance.readAllNotes();
     // print(notesList);
     if (mounted) {
@@ -68,14 +64,13 @@ class _AllNoteViewState extends State<AllNoteView> {
       crossAxisCount: 2,
       scrollDirection: Axis.vertical,
       mainAxisSpacing: 6,
-      crossAxisSpacing: 8,
       shrinkWrap: true,
       itemCount: notesList!.length,
       itemBuilder: (context, index) {
         return ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: Container(
-                margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+                margin: const EdgeInsets.only(left: 8, right: 8, bottom: 5),
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     color: Color(int.parse(notesList[index].color))
