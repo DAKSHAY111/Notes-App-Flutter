@@ -7,7 +7,6 @@ import 'package:uuid/uuid.dart';
 import '../utils/colors.dart';
 
 class CreateNoteView extends StatefulWidget {
-  // const CreateNoteView({super.key});
 
   @override
   State<CreateNoteView> createState() => _CreateNoteViewState();
@@ -157,7 +156,6 @@ class _CreateNoteViewState extends State<CreateNoteView> {
         Colors.black,
       ],
       onColorChanged: (color) {
-        print(color.value.toString());
         setState(() {
           this.color = Color(color.value);
         });

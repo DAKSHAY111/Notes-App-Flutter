@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:notes_app/widgets/MasonaryGridView.dart';
 import '../models/myNoteModel.dart';
 import '../utils/colors.dart';
 import 'noteview.dart';
@@ -83,64 +84,65 @@ class MySearchDelegate extends SearchDelegate {
                   fontWeight: FontWeight.bold),
             ),
           ),
-          MasonryGridView.count(
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 2,
-            scrollDirection: Axis.vertical,
-            mainAxisSpacing: 6,
-            shrinkWrap: true,
-            itemCount: suggestionList.length,
-            itemBuilder: (context, index) {
-              return ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Container(
-                      margin:
-                          const EdgeInsets.only(left: 8, right: 8, bottom: 5),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Color(int.parse(suggestionList[index].color))
-                              .withOpacity(0.7),
-                          border: Border.all(color: white.withOpacity(0.3)),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: InkWell(
-                        onTap: () => {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => NoteView(
-                                note: suggestionList[index],
-                              ),
-                            ),
-                          )
-                        },
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Hero(
-                              transitionOnUserGestures: true,
-                              tag: suggestionList[index],
-                              child: Material(
-                                type: MaterialType.transparency,
-                                child: Text(suggestionList[index].title,
-                                    style: const TextStyle(
-                                        color: Colors.white, fontSize: 20)),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              suggestionList[index].content.length > 200
-                                  ? "${suggestionList[index].content.substring(0, 200)}..."
-                                  : suggestionList[index].content,
-                              style: const TextStyle(color: Colors.white),
-                            )
-                          ],
-                        ),
-                      )) // ),
-                  );
-            },
-          ),
+          MasoGridView(notesList: suggestionList)
+          // MasonryGridView.count(
+          //   physics: const NeverScrollableScrollPhysics(),
+          //   crossAxisCount: 2,
+          //   scrollDirection: Axis.vertical,
+          //   mainAxisSpacing: 6,
+          //   shrinkWrap: true,
+          //   itemCount: suggestionList.length,
+          //   itemBuilder: (context, index) {
+          //     return ClipRRect(
+          //         borderRadius: BorderRadius.circular(10),
+          //         child: Container(
+          //             margin:
+          //                 const EdgeInsets.only(left: 8, right: 8, bottom: 5),
+          //             padding: const EdgeInsets.all(10),
+          //             decoration: BoxDecoration(
+          //                 color: Color(int.parse(suggestionList[index].color))
+          //                     .withOpacity(0.7),
+          //                 border: Border.all(color: white.withOpacity(0.3)),
+          //                 borderRadius: BorderRadius.circular(10)),
+          //             child: InkWell(
+          //               onTap: () => {
+          //                 Navigator.push(
+          //                   context,
+          //                   MaterialPageRoute(
+          //                     builder: (context) => NoteView(
+          //                       note: suggestionList[index],
+          //                     ),
+          //                   ),
+          //                 )
+          //               },
+          //               child: Column(
+          //                 crossAxisAlignment: CrossAxisAlignment.start,
+          //                 children: [
+          //                   Hero(
+          //                     transitionOnUserGestures: true,
+          //                     tag: suggestionList[index],
+          //                     child: Material(
+          //                       type: MaterialType.transparency,
+          //                       child: Text(suggestionList[index].title,
+          //                           style: const TextStyle(
+          //                               color: Colors.white, fontSize: 20)),
+          //                     ),
+          //                   ),
+          //                   const SizedBox(
+          //                     height: 10,
+          //                   ),
+          //                   Text(
+          //                     suggestionList[index].content.length > 200
+          //                         ? "${suggestionList[index].content.substring(0, 200)}..."
+          //                         : suggestionList[index].content,
+          //                     style: const TextStyle(color: Colors.white),
+          //                   )
+          //                 ],
+          //               ),
+          //             )) // ),
+          //         );
+          //   },
+          // ),
         ],
       ),
     );

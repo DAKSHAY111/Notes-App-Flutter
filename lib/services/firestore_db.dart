@@ -6,8 +6,10 @@ import 'db.dart';
 import 'package:notes_app/models/myNoteModel.dart';
 
 class FireDB {
-  //CREATE,READ,UPDate,DELETE
+  //* Create Firebaseauth instance
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  //* Adding Note in Firebase
 
   createNewNoteFirestore(Note note) async {
     final User? currentUser = _auth.currentUser;
@@ -26,6 +28,8 @@ class FireDB {
       print("DATA ADDED SUCCESSFULLY");
     });
   }
+
+  //* Read All Notes from Firebase
 
   getAllStoredNotes() async {
     final User? currentUser = _auth.currentUser;
@@ -53,6 +57,8 @@ class FireDB {
     });
   }
 
+  //* Update Note in Firebase
+
   updateNoteFirestore(Note note) async {
     final User? currentUser = _auth.currentUser;
     await FirebaseFirestore.instance
@@ -66,6 +72,8 @@ class FireDB {
     });
   }
 
+  //* Delete Note from Firebase
+
   deleteNoteFirestore(Note note) async {
     final User? currentUser = _auth.currentUser;
     await FirebaseFirestore.instance
@@ -75,7 +83,7 @@ class FireDB {
         .doc(note.uniqueId.toString())
         .delete()
         .then((_) {
-      print("DATA DELETED SUCCESS FULLY");
+      print("DATA DELETED SUCCESSFULLY");
     });
   }
 }

@@ -1,13 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:notes_app/pages/home.dart';
-import 'package:notes_app/services/firestore_db.dart';
 import 'package:notes_app/services/login_info.dart';
-import 'package:notes_app/utils/routes.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'services/auth.dart';
 
 class Login extends StatefulWidget {
@@ -23,12 +19,10 @@ class _LoginState extends State<Login> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // checkLogin();
     createBox();
   }
 
   void createBox() async {
-    // Future.delayed(Duration(seconds: 5), () => isLoading = false);
     Box1 = await Hive.openBox('Login');
     getData();
   }
@@ -36,7 +30,7 @@ class _LoginState extends State<Login> {
   void getData() async {
     if (await LocalDataSaver.getLogData()) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: ((context) => Home())));
+          context, MaterialPageRoute(builder: ((context) => const Home())));
     }
   }
 
@@ -75,7 +69,11 @@ class _LoginState extends State<Login> {
                     SignInButton(Buttons.Google, onPressed: () async {
                       await signInWithGoogle();
                       final User? currentUser = _auth.currentUser;
+
+                      //* Save Locally that user is logged in
                       await LocalDataSaver.saveLoginData(true);
+
+                      //* Save user's Details Locally
                       await LocalDataSaver.saveImg(
                           currentUser!.photoURL.toString());
                       await LocalDataSaver.saveMail(
@@ -83,11 +81,14 @@ class _LoginState extends State<Login> {
                       await LocalDataSaver.saveName(
                           currentUser.displayName.toString());
                       await LocalDataSaver.setSync(true);
+
                       if (!mounted) return;
                       Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: ((context) => const Home())));
+                        context,
+                        MaterialPageRoute(
+                          builder: ((context) => const Home()),
+                        ),
+                      );
                     }),
                   ],
                 ),

@@ -1,4 +1,4 @@
-// ignore: file_names
+//* Notes Table class handler
 class NoteFields {
   static const String id = "id";
   static const String uniqueId = "uniqueId";
@@ -35,7 +35,6 @@ class Note {
 
   static Note fromJson(Map<String, dynamic> Json) {
     return Note(Json[NoteFields.id] as int?,
-        // pin: Json[NoteFields.pin] ?? 0,
         pin: Json[NoteFields.pin] == 1,
         isArchive: Json[NoteFields.isArchive] == 1,
         title: Json[NoteFields.title] as String,
@@ -47,7 +46,6 @@ class Note {
 
   Map<String, dynamic> toJson() {
     return {
-      // NoteFields.id: id,
       NoteFields.pin: pin ? 1 : 0,
       NoteFields.isArchive: pin ? 1 : 0,
       NoteFields.title: title,

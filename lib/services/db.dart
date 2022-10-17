@@ -3,6 +3,8 @@ import 'package:path/path.dart';
 import '../models/myNoteModel.dart';
 import 'package:notes_app/services/firestore_db.dart';
 
+//* Sqflite Local databse operation function
+
 class NotesDatabse {
   static final NotesDatabse instance = NotesDatabse._init();
   static Database? _database;
@@ -20,6 +22,8 @@ class NotesDatabse {
 
     return await openDatabase(path, version: 1, onCreate: _createDB);
   }
+
+  // * Create Table Query
 
   Future _createDB(Database db, int version) async {
     const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
@@ -39,14 +43,20 @@ class NotesDatabse {
     ''');
   }
 
+  //* Create Note Entry in Databse
+
   Future<Note?> InsertEntry(Note note) async {
     final db = await instance.database;
     final id = await db!.insert(NoteFields.tableName, note.toJson());
+
+    //* Storing in firebase
     await FireDB().createNewNoteFirestore(note);
 
     print("Note added $id");
     return note.copy(id: id);
   }
+
+  //* Read Note Entry from Databse
 
   Future<List<Note>> readAllNotes() async {
     final db = await instance.database;
@@ -86,19 +96,20 @@ class NotesDatabse {
     }
   }
 
-  Future<List<int>> getNoteString(String query) async {
-    final db = await instance.database;
-    final result = await db!.query(NoteFields.tableName);
-    List<int> resultIds = [];
-    result.forEach((element) {
-      if (element["title"].toString().toLowerCase().contains(query) ||
-          element["content"].toString().toLowerCase().contains(query)) {
-        resultIds.add(element["id"] as int);
-      }
-    });
+  // Future<List<int>> getNoteString(String query) async {
+  //   final db = await instance.database;
+  //   final result = await db!.query(NoteFields.tableName);
+  //   List<int> resultIds = [];
+  //   result.forEach((element) {
+  //     if (element["title"].toString().toLowerCase().contains(query) ||
+  //         element["content"].toString().toLowerCase().contains(query)) {
+  //       resultIds.add(element["id"] as int);
+  //     }
+  //   });
 
-    return resultIds;
-  }
+  //   return resultIds;
+  // }
+  //* Update Note in Databse
 
   Future updateNote(Note note) async {
     await FireDB().updateNoteFirestore(note);
@@ -109,6 +120,8 @@ class NotesDatabse {
     print("Note update");
   }
 
+  // * Pin Note Feature
+
   Future pinNote(Note? note) async {
     print("Request for pin: ${note!.id} before : ${note.pin}");
     final db = await instance.database;
@@ -116,6 +129,8 @@ class NotesDatabse {
         where: '${NoteFields.id} = ?', whereArgs: [note.id]);
     print("Note pinned for ${note.id}");
   }
+
+// * Achieve Note Feature
 
   Future archiveNote(Note? note) async {
     print("Request for pin: ${note!.isArchive} before : ${note.isArchive}");
@@ -127,9 +142,11 @@ class NotesDatabse {
     print("Note pinned for ${note.id}");
   }
 
+//* Delete Note from Local Storage
+
   Future delteNote(Note note) async {
-    // Bcz we are not deleting note from database server
-    // await FireDB().deleteNoteFirestore(note);
+    //! Bcz we are not deleting note from database server
+    //! await FireDB().deleteNoteFirestore(note);
 
     final db = await instance.database;
     await db!.delete(NoteFields.tableName,

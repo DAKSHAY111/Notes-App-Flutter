@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:notes_app/widgets/MasonaryGridView.dart';
 import 'package:uuid/uuid.dart';
-import '../login.dart';
 import '../models/myNoteModel.dart';
-import '../services/auth.dart';
 import '../services/db.dart';
-import '../services/login_info.dart';
 import '../utils/colors.dart';
 import 'noteview.dart';
 
@@ -28,14 +24,6 @@ class _PinNoteViewState extends State<PinNoteView> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    LocalDataSaver.getImg().then((value) {
-      if (mounted) {
-        print("loaded + $value");
-        setState(() {
-          googleProfileimg = value;
-        });
-      }
-    });
     getAllPinNotes();
   }
 
@@ -62,39 +50,42 @@ class _PinNoteViewState extends State<PinNoteView> {
         return ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: Container(
-                margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: Color(int.parse(notesList![index].color)),
-                    border: Border.all(color: white.withOpacity(0.7)),
-                    borderRadius: BorderRadius.circular(10)),
-                child: InkWell(
-                  onTap: () => {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => NoteView(
-                                  note: notesList![index],
-                                )))
-                  },
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(notesList![index].title,
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 20)),
-                      const SizedBox(
-                        height: 10,
+              margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                  color: Color(int.parse(notesList![index].color)),
+                  border: Border.all(color: white.withOpacity(0.7)),
+                  borderRadius: BorderRadius.circular(10)),
+              child: InkWell(
+                onTap: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NoteView(
+                        note: notesList![index],
                       ),
-                      Text(
-                        notesList![index].content.length > 200
-                            ? "${notesList![index].content.substring(0, 200)}..."
-                            : notesList![index].content,
-                        style: const TextStyle(color: Colors.white),
-                      )
-                    ],
-                  ),
-                )) // ),
+                    ),
+                  )
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(notesList![index].title,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 20)),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      notesList![index].content.length > 200
+                          ? "${notesList![index].content.substring(0, 200)}..."
+                          : notesList![index].content,
+                      style: const TextStyle(color: Colors.white),
+                    )
+                  ],
+                ),
+              ),
+            ) // ),
             );
       },
     );
@@ -121,7 +112,9 @@ class _PinNoteViewState extends State<PinNoteView> {
                                       fontWeight: FontWeight.bold),
                                 ),
                               ),
-                              gridViewnotes()
+                              MasoGridView(
+                                notesList: notesList!,
+                              )
                             ])
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,55 +152,7 @@ class _PinNoteViewState extends State<PinNoteView> {
                   ),
                 ),
         ),
-        // bottomNavigationBar: BottomAppBar(
-        //   shape: const CircularNotchedRectangle(),
-        //   color: Colors.black54,
-        //   elevation: 15,
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-        //     children: [
-        //       IconButton(
-        //           tooltip: "View Archived Notes",
-        //           iconSize: 30,
-        //           onPressed: () {
-        //             // Navigator.pushReplacement(
-        //             //     context,
-        //             //     MaterialPageRoute(
-        //             //         builder: ((context) => ArchiveNoteView())));
-        //           },
-        //           icon: const Icon(
-        //             Icons.archive,
-        //             color: Colors.white,
-        //           )),
-        //       IconButton(
-        //           tooltip: "Pinned Notes",
-        //           iconSize: 30,
-        //           onPressed: () {},
-        //           icon: const Icon(
-        //             Icons.push_pin_outlined,
-        //             color: Colors.white,
-        //           )),
-        //       IconButton(
-        //           tooltip: "Daily Schedule",
-        //           iconSize: 30,
-        //           onPressed: () {},
-        //           icon: const Icon(
-        //             Icons.access_alarm,
-        //             color: Colors.white,
-        //           )),
-        //       IconButton(
-        //           tooltip: "Grid View",
-        //           iconSize: 30,
-        //           onPressed: () {},
-        //           icon: const Icon(
-        //             Icons.grid_view_rounded,
-        //             color: Colors.white,
-        //           )),
-        //     ],
-        //   ),
-        // ),
       ),
     );
-    ;
   }
 }

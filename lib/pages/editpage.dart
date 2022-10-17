@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:notes_app/pages/home.dart';
-import 'package:notes_app/pages/noteview.dart';
 import 'package:notes_app/services/db.dart';
 
 import '../models/myNoteModel.dart';
@@ -98,33 +97,35 @@ class _EditNoteViewState extends State<EditNoteView> {
                 ),
               ),
               SizedBox(
-                  height: 200,
-                  child: Form(
-                    child: TextFormField(
-                        onChanged: (value) {
-                          setState(() {
-                            newNoteDetail = value;
-                          });
-                        },
-                        initialValue: newNoteDetail,
-                        keyboardType: TextInputType.multiline,
-                        minLines: 50,
-                        maxLines: null,
-                        cursorColor: white,
-                        style:
-                            const TextStyle(fontSize: 15, color: Colors.white),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            focusedBorder: InputBorder.none,
-                            enabledBorder: InputBorder.none,
-                            errorBorder: InputBorder.none,
-                            disabledBorder: InputBorder.none,
-                            hintText: "Your Note",
-                            hintStyle: TextStyle(
-                                color: Colors.white.withOpacity(0.7),
-                                fontSize: 17,
-                                fontWeight: FontWeight.bold))),
-                  )),
+                height: 200,
+                child: Form(
+                  child: TextFormField(
+                    onChanged: (value) {
+                      setState(() {
+                        newNoteDetail = value;
+                      });
+                    },
+                    initialValue: newNoteDetail,
+                    keyboardType: TextInputType.multiline,
+                    minLines: 50,
+                    maxLines: null,
+                    cursorColor: white,
+                    style: const TextStyle(fontSize: 15, color: Colors.white),
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      hintText: "Your Note",
+                      hintStyle: TextStyle(
+                          color: Colors.white.withOpacity(0.7),
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -156,24 +157,25 @@ class _EditNoteViewState extends State<EditNoteView> {
       });
 
   void pickColor(BuildContext context) => showDialog(
-      context: context,
-      builder: ((context) => AlertDialog(
-            backgroundColor: bgColor,
-            title: const Text("Pick Color"),
-            content: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  buildColorPicker(),
-                  TextButton(
-                    child: const Text(
-                      "Select",
-                      style: TextStyle(fontSize: 20, color: white),
+        context: context,
+        builder: ((context) => AlertDialog(
+              backgroundColor: bgColor,
+              title: const Text("Pick Color"),
+              content: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    buildColorPicker(),
+                    TextButton(
+                      child: const Text(
+                        "Select",
+                        style: TextStyle(fontSize: 20, color: white),
+                      ),
+                      onPressed: () => Navigator.of(context).pop(),
                     ),
-                    onPressed: () => Navigator.of(context).pop(),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          )));
+            )),
+      );
 }

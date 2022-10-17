@@ -1,21 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:get/get.dart';
 import 'package:notes_app/login.dart';
 import 'package:notes_app/pages/AllNotesView.dart';
 import 'package:notes_app/pages/SearchPageView.dart';
-import 'package:notes_app/pages/createnoteview.dart';
-import 'package:notes_app/pages/noteview.dart';
 import 'package:notes_app/pages/pinNoteView.dart';
 import 'package:notes_app/services/auth.dart';
 import 'package:notes_app/services/db.dart';
-import 'package:notes_app/services/firestore_db.dart';
 import 'package:notes_app/utils/routes.dart';
 import 'package:notes_app/widgets/MyDrawer.dart';
 import 'package:notes_app/services/login_info.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:uuid/uuid.dart';
 import 'package:notes_app/pages/archiveNoteView.dart';
 
 import '../models/myNoteModel.dart';
@@ -80,52 +72,53 @@ class _HomeState extends State<Home> {
                 },
                 icon: const Icon(Icons.search)),
             GestureDetector(
-                onTap: () {
-                  showDialog(
-                      context: context,
-                      builder: ((context) {
-                        return AlertDialog(
-                          backgroundColor: bgColor,
-                          title: const Text(
-                            "Are You sure to logout from this account ? ",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          actions: [
-                            TextButton(
-                                onPressed: () async {
-                                  signOut();
-                                  await LocalDataSaver.saveLoginData(false);
-                                  if (!mounted) return;
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Login()));
-                                },
-                                child: const Text(
-                                  "Confirm",
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 18),
-                                )),
-                            TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Text(
-                                  "Cancel",
-                                  style: TextStyle(
-                                      color: Colors.red, fontSize: 18),
-                                ))
-                          ],
-                        );
-                      }));
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: ((context) {
+                    return AlertDialog(
+                      backgroundColor: bgColor,
+                      title: const Text(
+                        "Are You sure to logout from this account ? ",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      actions: [
+                        TextButton(
+                            onPressed: () async {
+                              signOut();
+                              await LocalDataSaver.saveLoginData(false);
+                              if (!mounted) return;
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Login()));
+                            },
+                            child: const Text(
+                              "Confirm",
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
+                            )),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Text(
+                              "Cancel",
+                              style: TextStyle(color: Colors.red, fontSize: 18),
+                            ))
+                      ],
+                    );
+                  }),
+                );
+              },
+              child: CircleAvatar(
+                onBackgroundImageError: (object, stackTrace) {
+                  print("Ok + $StackTrace");
                 },
-                child: CircleAvatar(
-                  onBackgroundImageError: (object, stackTrace) {
-                    print("Ok + $StackTrace");
-                  },
-                  maxRadius: 18,
-                  backgroundImage: NetworkImage(userImg.toString()),
-                )),
+                maxRadius: 18,
+                backgroundImage: NetworkImage(userImg.toString()),
+              ),
+            ),
           ],
         ),
         // body: IndexedStack(index: currentIndex, children: screens),

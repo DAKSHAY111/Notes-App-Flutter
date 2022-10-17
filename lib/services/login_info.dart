@@ -1,4 +1,3 @@
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hive/hive.dart';
 
@@ -17,13 +16,11 @@ class LocalDataSaver {
     print(
         "----------------------- User Saved : $isUserLoggedIn ---------------");
     box.put(logKey, isUserLoggedIn);
-    // if (box.isOpen) box.close();
   }
 
   static Future<bool> getLogData() async {
     Box box = await Hive.openBox(BoxName);
     bool isLogin = box.get(logKey) != null && box.get(logKey) != false;
-    // if (box.isOpen) box.close();
     print(isLogin);
     return isLogin;
   }
@@ -33,7 +30,6 @@ class LocalDataSaver {
   static Future<void> saveName(String username) async {
     Box box = await Hive.openBox(BoxName);
     box.put(nameKey, username);
-    // if (box.isOpen) box.close();
   }
 
   static Future<String?> getName() async {
@@ -46,7 +42,6 @@ class LocalDataSaver {
   static Future<void> saveMail(String useremail) async {
     Box box = await Hive.openBox(BoxName);
     box.put(emailKey, useremail);
-    // if (box.isOpen) box.close();
   }
 
   static Future<String?> getEmail() async {
@@ -59,7 +54,6 @@ class LocalDataSaver {
   static Future<void> saveImg(String imgUrl) async {
     Box box = await Hive.openBox(BoxName);
     box.put(imgKey, imgUrl);
-    // if (box.isOpen) box.close();
   }
 
   static Future<String> getImg() async {
@@ -72,7 +66,6 @@ class LocalDataSaver {
   static Future<void> setSync(bool isSyncOn) async {
     Box box = await Hive.openBox(BoxName);
     box.put(syncKey, isSyncOn);
-    // if (box.isOpen) box.close();
   }
 
   static Future<bool?> getSyncSet() async {

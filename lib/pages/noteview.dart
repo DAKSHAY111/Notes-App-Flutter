@@ -9,7 +9,7 @@ import '../services/db.dart';
 
 class NoteView extends StatefulWidget {
   Note note;
-  NoteView({required this.note});
+  NoteView({super.key, required this.note});
   @override
   State<NoteView> createState() => _NoteViewState();
 }
