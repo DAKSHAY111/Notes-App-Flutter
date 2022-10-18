@@ -26,7 +26,7 @@ class _MasoGridViewState extends State<MasoGridView> {
       mainAxisSpacing: 6,
       crossAxisSpacing: 8,
       shrinkWrap: true,
-      itemCount: notesList!.length,
+      itemCount: notesList.length,
       itemBuilder: (context, index) {
         return ClipRRect(
             borderRadius: BorderRadius.circular(10),
@@ -34,7 +34,7 @@ class _MasoGridViewState extends State<MasoGridView> {
                 margin: const EdgeInsets.only(left: 5, right: 5, bottom: 5),
                 padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
-                    color: Color(int.parse(notesList![index].color)),
+                    color: Color(int.parse(notesList[index].color)),
                     border: Border.all(color: white.withOpacity(0.7)),
                     borderRadius: BorderRadius.circular(10)),
                 child: InkWell(
@@ -43,22 +43,22 @@ class _MasoGridViewState extends State<MasoGridView> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => NoteView(
-                                  note: notesList![index],
+                                  note: notesList[index],
                                 )))
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(notesList![index].title,
+                      Text(notesList[index].title,
                           style: const TextStyle(
                               color: Colors.white, fontSize: 20)),
                       const SizedBox(
                         height: 10,
                       ),
                       Text(
-                        notesList![index].content.length > 200
-                            ? "${notesList![index].content.substring(0, 200)}..."
-                            : notesList![index].content,
+                        notesList[index].content.length > 200
+                            ? "${notesList[index].content.substring(0, 200)}..."
+                            : notesList[index].content,
                         style: const TextStyle(color: Colors.white),
                       )
                     ],
